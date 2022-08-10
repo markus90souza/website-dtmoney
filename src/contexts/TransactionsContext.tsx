@@ -26,12 +26,11 @@ const TransactionsProvider = ({ children }: TransactionsProviderProps) => {
     const loadTransactions = async () => {
       const response = await fetch('http://localhost:3333/transactions')
       const data = await response.json()
-      console.log(data)
       setTransactions(data)
     }
 
     loadTransactions()
-  }, [transactions])
+  }, [])
   return (
     <TransactionsContext.Provider
       value={{
