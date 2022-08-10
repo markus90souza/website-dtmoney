@@ -1,0 +1,28 @@
+{
+  "transactions" : [
+    {
+      "id": 1,
+      "description": "Desenvolvimento de sites",
+      "type": "income",
+      "category": "Freelancer",
+      "price": 12000,
+      "createdAt": "2022-08-10T16:06:46.857Z"
+    },
+    {
+      "id": 2,
+      "description": "Gasolina",
+      "type": "outcome",
+      "category": "Transporte",
+      "price": 120,
+      "createdAt": "2022-08-10T16:02:46.857Z"
+    },
+    {
+      "id": 3,
+      "description": "Hamburger",
+      "type": "outcome",
+      "category": "Alimentação",
+      "price": 120,
+      "createdAt": "2022-08-10T16:07:46.857Z"
+    }
+  ]
+}

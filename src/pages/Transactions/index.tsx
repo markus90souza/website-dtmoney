@@ -1,5 +1,7 @@
+import { useContext } from 'react'
 import { Header } from '../../components/Header'
 import { Summary } from '../../components/Summary'
+import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { Search } from './Form/Search'
 import {
   Container,
@@ -9,6 +11,7 @@ import {
 } from './styles'
 
 const Transactions = () => {
+  const { transactions } = useContext(TransactionsContext)
   return (
     <Container>
       <Header />
@@ -18,25 +21,17 @@ const Transactions = () => {
         <Search />
         <TransactionsTable>
           <tbody>
-            <tr>
-              <td>Desenvolvimento de sites</td>
-              <td>
-                R$
-                <Price variant="income">12,000,00</Price>
-              </td>
-              <td>Venda</td>
-              <td>20/08/202o</td>
-            </tr>
-
-            <tr>
-              <td>Gasolina</td>
-              <td>
-                R$
-                <Price variant="outcome"> - 800,00</Price>
-              </td>
-              <td>Transporte</td>
-              <td>22/08/202o</td>
-            </tr>
+            {transactions.map((transaction) => (
+              <tr key={transaction.id}>
+                <td>{transaction.description}</td>
+                <td>
+                  R${' '}
+                  <Price variant={transaction.type}>{transaction.price}</Price>
+                </td>
+                <td>{transaction.category}</td>
+                <td>{transaction.createdAt}</td>
+              </tr>
+            ))}
           </tbody>
         </TransactionsTable>
       </TransactionsTableContainer>
