@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { Header } from '../../components/Header'
 import { Summary } from '../../components/Summary'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
+import { dataFormatter, priceFormatter } from '../../utils/Formatter'
 import { Search } from './Form/Search'
 import {
   Container,
@@ -25,11 +26,13 @@ const Transactions = () => {
               <tr key={transaction.id}>
                 <td>{transaction.description}</td>
                 <td>
-                  R${' '}
-                  <Price variant={transaction.type}>{transaction.price}</Price>
+                  <Price variant={transaction.type}>
+                    {transaction.type === 'outcome' && ' - '}
+                    {priceFormatter.format(transaction.price)}
+                  </Price>
                 </td>
                 <td>{transaction.category}</td>
-                <td>{transaction.createdAt}</td>
+                <td>{dataFormatter.format(new Date(transaction.createdAt))}</td>
               </tr>
             ))}
           </tbody>
