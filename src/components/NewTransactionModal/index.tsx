@@ -1,7 +1,9 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
+import { useContextSelector } from 'use-context-selector'
+import { Controller, useForm } from 'react-hook-form'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 
 import {
   Overlay,
@@ -10,9 +12,7 @@ import {
   TransactionType,
   TransactionTypeButton,
 } from './styles'
-import { Controller, useForm } from 'react-hook-form'
 
-import { useContext } from 'react'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
 
 const newTransationSchema = zod.object({
@@ -37,7 +37,12 @@ const NewTransactionModal = () => {
     },
   })
 
-  const { createTransactions } = useContext(TransactionsContext)
+  const createTransactions = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return context.createTransactions
+    },
+  )
 
   const handleCreateNewTransaction = async (data: newTransactionProps) => {
     const { description, price, category, type } = data
