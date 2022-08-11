@@ -61,7 +61,7 @@ const TransactionsProvider = ({ children }: TransactionsProviderProps) => {
 
   useEffect(() => {
     getAllTransactions()
-  }, [])
+  }, [getAllTransactions])
   return (
     <TransactionsContext.Provider
       value={{
