@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { api } from '../services/api'
 
 type TransactionsData = {
   id: number
@@ -11,6 +12,7 @@ type TransactionsData = {
 
 type TransactionsContextType = {
   transactions: TransactionsData[]
+  getAllTransactions: (query?: string) => Promise<void>
 }
 
 const TransactionsContext = createContext({} as TransactionsContextType)
@@ -22,19 +24,24 @@ type TransactionsProviderProps = {
 const TransactionsProvider = ({ children }: TransactionsProviderProps) => {
   const [transactions, setTransactions] = useState<TransactionsData[]>([])
 
-  useEffect(() => {
-    const loadTransactions = async () => {
-      const response = await fetch('http://localhost:3333/transactions')
-      const data = await response.json()
-      setTransactions(data)
-    }
+  const getAllTransactions = async (query?: string) => {
+    const { data } = await api.get('/transactions', {
+      params: {
+        q: query,
+      },
+    })
 
-    loadTransactions()
+    setTransactions(data)
+  }
+
+  useEffect(() => {
+    getAllTransactions()
   }, [])
   return (
     <TransactionsContext.Provider
       value={{
         transactions,
+        getAllTransactions,
       }}
     >
       {children}

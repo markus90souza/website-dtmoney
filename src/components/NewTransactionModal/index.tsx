@@ -38,7 +38,7 @@ const NewTransactionModal = () => {
     console.log(data)
   }
   return (
-    <Dialog.DialogPortal>
+    <Dialog.Portal>
       <Overlay />
 
       <Content>
@@ -95,7 +95,7 @@ const NewTransactionModal = () => {
           </button>
         </form>
       </Content>
-    </Dialog.DialogPortal>
+    </Dialog.Portal>
   )
 }
 
