@@ -10,9 +10,17 @@ type TransactionsData = {
   createdAt: string
 }
 
+type TransactionsDTO = {
+  description: string
+  price: number
+  type: 'income' | 'outcome'
+  category: string
+}
+
 type TransactionsContextType = {
   transactions: TransactionsData[]
   getAllTransactions: (query?: string) => Promise<void>
+  createTransactions: (data: TransactionsDTO) => Promise<void>
 }
 
 const TransactionsContext = createContext({} as TransactionsContextType)
@@ -27,6 +35,8 @@ const TransactionsProvider = ({ children }: TransactionsProviderProps) => {
   const getAllTransactions = async (query?: string) => {
     const { data } = await api.get('/transactions', {
       params: {
+        _sort: 'createdAt',
+        _order: 'Desc',
         q: query,
       },
     })
@@ -34,6 +44,19 @@ const TransactionsProvider = ({ children }: TransactionsProviderProps) => {
     setTransactions(data)
   }
 
+  const createTransactions = async (data: TransactionsDTO) => {
+    const { description, price, category, type } = data
+
+    const response = await api.post('/transactions', {
+      description,
+      type,
+      category,
+      price,
+      createdAt: new Date(),
+    })
+
+    setTransactions((oldState) => [response.data, ...oldState])
+  }
   useEffect(() => {
     getAllTransactions()
   }, [])
@@ -42,6 +65,7 @@ const TransactionsProvider = ({ children }: TransactionsProviderProps) => {
       value={{
         transactions,
         getAllTransactions,
+        createTransactions,
       }}
     >
       {children}
